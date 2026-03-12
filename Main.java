@@ -1,24 +1,12 @@
-package database;
+CascadeClassifier faceDetector =
+        new CascadeClassifier("haarcascade_frontalface.xml");
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+Mat image = Imgcodecs.imread("camera.jpg");
 
-public class DBConnection {
+MatOfRect faceDetections = new MatOfRect();
 
-    static String url = "jdbc:mysql://localhost:3306/smart_security";
-    static String user = "root";
-    static String pass = "password";
+faceDetector.detectMultiScale(image, faceDetections);
 
-    public static Connection getConnection(){
-
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            return DriverManager.getConnection(url,user,pass);
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-
-        return null;
-    }
+if(faceDetections.toArray().length > 0){
+        System.out.println("Face detected");
 }
